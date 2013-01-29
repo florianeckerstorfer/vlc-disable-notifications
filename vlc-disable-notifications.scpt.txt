@@ -1,0 +1,102 @@
+global plistFile
+
+on run
+    -- The plist file will be different on your system. You can find out the filename by running the following line in a terminal window
+    -- $ ls ~/Library/Preferences/ByHost/com.apple.notificationcenterui.*.plist
+    set plistFile to "PASTE PLIST FILENAME HERE"
+    checkStatus()
+end run
+
+on idle
+    checkStatus()
+    return 10
+end idle
+
+on checkStatus()
+    set vlc to isAppLoaded("VLC")
+    set nc to isNotificationCenterEnabled()
+    set ifsm to getIsFullscreenMode()
+
+    if vlc is true and nc is true and getIsPlaying() is true and ifsm is true then
+        toggleNotificationCenter()
+    else if (vlc is false or getIsPlaying() is false or ifsm is false) and nc is false then
+        toggleNotificationCenter()
+    end if
+end checkStatus
+
+on isAppLoaded(app_name)
+    tell application "System Events"
+        set app_list to every application process whose name is app_name
+        if the (count of app_list) > 0 then
+            set x to true
+        else
+            set x to false
+        end if
+    end tell
+    return x
+end isAppLoaded
+
+-- http://apple.stackexchange.com/questions/59572/get-os-x-notification-center-state-from-the-command-line
+on isNotificationCenterEnabled()
+    set x to do shell script "defaults read " & plistFile & " doNotDisturb"
+    if the x is "0" then
+        return true
+    else
+        return false
+    end if
+end isNotificationCenterEnabled
+
+-- http://apple.stackexchange.com/questions/57668/what-hooks-exist-into-notification-center-twitter-so-that-i-can-tweet-programm/57830#57830
+on toggleNotificationCenter()
+    tell application "System Events"
+        tell process "Notification Center"
+            key down option
+            click first menu bar's first menu bar item
+            key up option
+        end tell
+    end tell
+end toggleNotificationCenter
+
+-- Based on code from http://www.adiumxtras.com/index.php?a=xtras&xtra_id=6722
+on getIsPlaying()
+    -- Initialise the return value.
+    set isPlaying to false
+
+    -- Try and obtain the current state.
+    try
+        tell application "System Events"
+            tell process "VLC"
+                tell menu 1 of menu bar item "Playback" of menu bar 1
+                    get title of menu item 1
+                    set play_pause_btn to the result
+                    get enabled of menu item 2
+                    set stop_enabled to result
+                end tell
+            end tell
+        end tell
+
+        -- We're only interested if VLC is playing.
+        if stop_enabled is true and play_pause_btn is "pause" then
+            set isPlaying to true
+        end if
+    end try
+
+    return isPlaying
+end getIsPlaying
+
+-- http://forum.videolan.org/viewtopic.php?f=12&t=98828
+on getIsFullscreenMode()
+    set isFullscreenMode to false
+
+    try
+        tell application "System Events"
+            tell application "VLC" to get fullscreen mode
+            if the result is true then
+                set isFullscreenMode to true
+            end if
+        end tell
+
+    end try
+
+    return isFullscreenMode
+end getIsFullscreenMode
