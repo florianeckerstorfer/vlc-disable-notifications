@@ -1,6 +1,8 @@
 AppleScript to disable OS X Notification Center while VLC is playing a video in full screen mode
 ================================================================================================
 
+This AppleScript runs quitly in the background and disabled OS X Notification Center whenever you play a video in VLC in full screen mode. When you stop (or pause) the video, leave full screen mode or quit VLC Notification Center is enabled again. The script checks if a video is running every 10 seconds.
+
 By [Florian Eckerstorfer](http://florianeckerstorfer.com).
 
 Installation
