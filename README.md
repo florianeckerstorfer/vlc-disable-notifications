@@ -2,5 +2,3 @@ AppleScript to disable OS X Notification Center while VLC is playing a video in 
 ================================================================================================
 
 By [Florian Eckerstorfer](http://florianeckerstorfer.com).
-
-
