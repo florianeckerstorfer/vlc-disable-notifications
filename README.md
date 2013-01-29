@@ -14,10 +14,10 @@ Installation
 3. Copy the file name and paste it into the script (see the comments)
     ![Screenshot of code to adapt path](https://raw.github.com/florianeckerstorfer/vlc-disable-notifications/master/doc/screenshot-plist-path.png)
 4. **File** > **Export** and select **Applicaiton** as *File Format*. Activate the **Stay open after run handler** checkbox.
-    ![Screenshot of the Export Dialog](doc/screenshot-export.png "The export dialog of AppleScript Editor")
+    ![Screenshot of the Export Dialog](https://raw.github.com/florianeckerstorfer/vlc-disable-notifications/master/doc/screenshot-export.png)
 5. Start the application
 6. Optional: if you want to start the application when you start OS X you can add it to your users **Login Items**. This can be done in the System Preferences > User
-    ![Screenshot of the Login Items Window](doc/screenshot-login-item.png "Login Items Window")
+    ![Screenshot of the Login Items Window](https://raw.github.com/florianeckerstorfer/vlc-disable-notifications/master/doc/screenshot-login-item.png)
 
 
 
